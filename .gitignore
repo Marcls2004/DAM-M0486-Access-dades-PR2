@@ -1,0 +1,19 @@
+# Maven
+target/
+
+# Fitxers generats en executar els programes de la pràctica (es regeneren)
+data/*.dat
+data/*.ser
+data/*.bin
+
+# IDE
+.vscode/
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+
+# Sistema operatiu
+.DS_Store
+Thumbs.db
