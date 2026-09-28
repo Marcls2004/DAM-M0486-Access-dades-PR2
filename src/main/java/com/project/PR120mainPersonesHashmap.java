@@ -39,6 +39,7 @@ public class PR120mainPersonesHashmap {
     public static void escriurePersones(HashMap<String, Integer> persones) throws IOFitxerExcepcio {
        // *************** CODI PRÀCTICA **********************/
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(getFilePath()))) {
+            // Escriure
             dos.writeInt(persones.size());                    // 1) quants elements hi ha
             for (Map.Entry<String, Integer> e : persones.entrySet()) {
                 dos.writeUTF(e.getKey());                     // 2) nom (String, format UTF)
@@ -46,7 +47,7 @@ public class PR120mainPersonesHashmap {
             }
         }
         catch (Exception e){
-                throw new IOFitxerExcepcio("Error al escriure al fitxer: " + e.getMessage());
+                throw new IOFitxerExcepcio("Error en escriure les persones al fitxer", e);
             }
     }
 
@@ -55,6 +56,7 @@ public class PR120mainPersonesHashmap {
         // *************** CODI PRÀCTICA **********************/
 
         try (DataInputStream dis = new DataInputStream(new FileInputStream(getFilePath()))) {
+            // Llegir
             int n = dis.readInt();                            // 1) comptador
             for (int i = 0; i < n; i++) {
                 String nom = dis.readUTF();                   // 2) nom
@@ -62,7 +64,7 @@ public class PR120mainPersonesHashmap {
                 System.out.println(nom + ": " + edat + " anys");
             }
         }catch (Exception e){
-            throw new IOFitxerExcepcio("Error al llegir del fitxer: " + e.getMessage());
+            throw new IOFitxerExcepcio("Error en llegir les persones del fitxer", e);
         }
     }
 }
