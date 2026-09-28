@@ -34,5 +34,14 @@ public class PR121mainEscriu {
 
     public static void serialitzarHashMap(PR121hashmap hashMap) throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+        
+
+        //gardarlo en el archivo "PR121HashMapData.ser"
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getFilePath()))) {
+            oos.writeObject(hashMap);
+        }catch (IOException e) {
+            throw new IOFitxerExcepcio( "Error en serialitzar l'objecte HashMap", e);
+        }
+
     }
 }

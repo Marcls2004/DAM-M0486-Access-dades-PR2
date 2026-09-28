@@ -20,7 +20,20 @@ public class PR121mainLlegeix {
 
     public static PR121hashmap deserialitzarHashMap() throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
-        return new PR121hashmap(); // Substitueix pel teu
+
+        try (FileInputStream is = new FileInputStream(getFilePath()); 
+            ObjectInputStream ois = new ObjectInputStream(is)) {
+                
+           PR121hashmap hashMap = (PR121hashmap) ois.readObject();
+            return hashMap; // Substitueix pel teu
+            
+        }catch (IOException e) {
+            throw new IOFitxerExcepcio("Error en deserialitzar l'objecte HashMap", e);
+        }
+        catch (ClassNotFoundException e) {
+            throw new IOFitxerExcepcio("Error en deserialitzar l'objecte HashMap", e);
+        }
+
     }
 
     // Getter
