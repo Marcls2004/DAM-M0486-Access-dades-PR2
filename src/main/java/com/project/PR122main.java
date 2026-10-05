@@ -27,7 +27,7 @@ public class PR122main {
     // Mètode per serialitzar la llista de persones
     public static void serialitzarPersones(List<PR122persona> persones) throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
-
+        
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getFilePath()))) {
             oos.writeObject(persones);
 

@@ -4,6 +4,7 @@ import com.project.excepcions.IOFitxerExcepcio;
 import com.project.utilitats.UtilsCSV;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,6 +64,16 @@ public class PR123mainTreballadors {
     // Mètode per mostrar els treballadors llegint el fitxer CSV
     public void mostrarTreballadors() throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+        
+        try {
+            List<String> treballadorsCSV = llegirFitxerCSV(); // se hace una lista para poder mostrarlo
+            for (String treballador : treballadorsCSV) {
+                System.out.println(treballador); //se recorre la lista y se imprime cada trabajador
+            }
+        } catch (IOFitxerExcepcio e) {
+            throw new IOFitxerExcepcio("Error en llegir el fitxer: " + filePath, e);
+        }
+
     }
 
     // Mètode per modificar un treballador (interactiu)
@@ -89,6 +100,59 @@ public class PR123mainTreballadors {
     // - Si hi ha problemes amb el fitxer ha de llançar IOFitxerExcepcio.
     public void modificarTreballador(String id, String columna, String nouValor) throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+
+        int columnaArray = 0;
+        boolean trobatParametre = false;
+        boolean trobatTreballador = false;
+
+
+        try{
+            
+            List<String> treballadorsCSV = llegirFitxerCSV(); //se lee el archivo y se guarda en una lista
+
+            String cabeceraString = treballadorsCSV.get(0);
+
+            String[] cabecera = cabeceraString.split(","); //se separa la cabecera en un array
+
+            for (int j = 0; j < cabecera.length; j++) {
+                if (cabecera[j].equals(columna)) {
+                    //se guarda la posición de la columna en el array
+                    columnaArray = j;
+                    trobatParametre = true;
+                    break;
+                }
+            }
+            //si no se ha encontrado la columna, se lanza una excepción
+            if (!trobatParametre) {
+                throw new IllegalArgumentException("Columna no vàlida");
+            }
+
+            for (int i = 0; i < treballadorsCSV.size(); i++) {
+                //se recorre la lista de trabajadores
+                if (i != 0){
+                    String[] treballador = treballadorsCSV.get(i).split(","); //se separa el trabajador en un array
+                    if (treballador[0].equals(id)){
+                        //si se encuentra el trabajador con el id introducido, se modifica el valor de la columna correspondiente
+                        treballador[columnaArray] = nouValor; //se modifica el valor de la columna correspondiente
+                        String treballadorModificat = String.join(",", treballador); //se une el array en un string
+                        treballadorsCSV.set(i, treballadorModificat); //se guarda el trabajador modificado en la lista
+                        trobatTreballador = true; //se indica que se ha encontrado el trabajador
+                        break;
+                    }
+                }
+            }
+
+            //si no se ha encontrado el trabajador con el id introducido, se lanza una excepción
+            if (!trobatTreballador){
+                throw new IllegalArgumentException("Id inexistent");
+            }
+
+            escriureFitxerCSV(treballadorsCSV); //se escribe el archivo con los cambios realizados
+            
+        }catch (IOFitxerExcepcio e) {
+            throw new IOFitxerExcepcio("Error en llegir el fitxer: " + filePath, e);
+        }
+
     }
 
     // Encapsulació de llegir el fitxer CSV
